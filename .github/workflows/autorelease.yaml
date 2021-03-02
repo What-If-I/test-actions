@@ -1,4 +1,4 @@
-name: AutoRelease
+name: Release
 
 on:
   push:
@@ -7,13 +7,22 @@ on:
 jobs:
   release:
     runs-on: ubuntu-latest
+    if: "!contains(github.event.head_commit.message, 'ci skip') && !contains(github.event.head_commit.message, 'skip ci')"
     steps:
       - uses: actions/checkout@v2
-      - uses: CupOfTea696/gh-action-auto-release@v1.0.2
+
+      - name: Prepare repository
+        run: git fetch --unshallow --tags
+
+      - name: Use Node.js 12.x
+        uses: actions/setup-node@v1
         with:
-          title: "Release: $version"
-          tag: "v$semver"
-          draft: true
-          regex: "/^Release: #{semver}$/i"
+          node-version: 12.x
+        run: yarn add -D auto
+
+      - name: Create Release
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        run: |
+          yarn install auto
+          npx auto shipit
