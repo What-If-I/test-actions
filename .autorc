@@ -1,13 +1,10 @@
 {
   "plugins": [
     "git-tag",
-    "all-contributors",
-    "conventional-commits",
-    "first-time-contributor",
     "released"
   ],
-  "owner": " ",
-  "repo": " ",
-  "name": "release-bot",
-  "email": "release-bot@lamoda.ru"
+  "owner": "What-If-I",
+  "repo": "test-actions",
+  "name": "autorelease",
+  "email": "autorelease@lamoda.noreply"
 }
